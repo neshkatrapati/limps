@@ -1,0 +1,9 @@
+<@F pair <a b> <@F _pair <i> <@case <= i 0> a b>>>
+<@F distance <p q>
+    <** <+ <** <- <p 1> <q 1>> 2>
+           <** <- <p 1> <q 1>> 2>> 0.5>>
+
+<stdout <distance <pair 1 1> <pair 0 0>>>
+
+<@F sigma <p f>
+          <+ <f <p 1>>

@@ -1,0 +1,4 @@
+<@ i 0>
+<@while <lt i 10> 
+	<<stdout i>
+	 <@ i <+ i 1>>>>

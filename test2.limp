@@ -1,0 +1,12 @@
+<@F foo <n>
+        <@case <= n 0>
+                n
+                <+ 1
+                    <foo <- n 1>>>>>
+
+<@F fact
+    <n>
+    <@case
+        <lt n 3>
+        n
+        <* n <fact <- n 1>>>>>
