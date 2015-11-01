@@ -1,0 +1,46 @@
+<@F print_list
+    <l>
+    <<@ i 0>
+      <@while <lt i <# l>>
+              <<stdout <: l i>>
+              <@ i <+ i 1>>>>>>
+
+<@F print_list_rec
+    <l>
+    <<stdout <: l 0>>
+     <@case <gt <# l> 1>
+            <print_list_rec <:/ l
+                                1
+                                <# l>>>
+            None>>>
+
+<@F sum_nums
+    <l>
+    <<@ s <: l 0>>
+     <@case <gt <# l> 1>
+            <@ s
+               <+ s
+                  <sum_nums <:/ l 1 <# l>>>>>
+            None>
+     s>>
+
+<@F range
+    <start end>
+    <<@ l <+ `<> start>>
+     <@case <gt end start>
+            <<@ i 0>
+             <@ r <range <+ start 1> end>>
+             <@while <lt i <# r>>
+                     <<@ l <+ l <: r i>>>
+                      <@ i <+ i 1>>>>>
+             l>
+            l>>
+
+<@F sigma
+    <f l>
+    <<@ sum 0>
+     <@ i 0>
+     <@while <lt i <# l>>
+             <<@ sum <+ sum <f <: l i>>>>
+              <@ i <+ i 1>>>>
+     sum>>

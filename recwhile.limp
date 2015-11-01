@@ -1,0 +1,14 @@
+<@ i 0>
+<@F check
+    <lt i 10>>
+
+<@F body
+    <<stdout i>
+     <@ i <+ i 1>>>>
+
+<@F while
+    <c b>
+    <@case <c>
+	   <while c b>
+	   None>>
+

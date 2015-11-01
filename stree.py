@@ -40,10 +40,13 @@ class STREE(object):
             s += self.node
         else:
             s = "<"
+
         t = []
         for index, child in self.children.items():
-
-            t += [str(child.flatten())]
+            if type(child) == STREE:
+                t += [str(child.flatten())]
+            else:
+                t += [str(child)]
 
         s += " ".join(t)
 
@@ -51,6 +54,7 @@ class STREE(object):
             s += ">"
 
         return s
+
     def __str__(self):
         if self.type != "__quote__":
             return self.node

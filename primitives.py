@@ -1,12 +1,37 @@
 
 from stree import *
-
+from copy import deepcopy
 
 def operator(op):
     def _eval(arglist):
         #print arglist
-        return eval(op.join(arglist))
+        if type(arglist[0]) != STREE:
+            return eval(op.join(arglist))
+        else:
+
+            return list_add(arglist[0], arglist[1])
     return _eval
+
+def list_add(l, el):
+    m = Method(None, l.children[0])
+    elements = deepcopy(m.body.children)
+    elid = 0
+    if len(elements.keys()) > 0:
+        elid = max(elements.keys()) + 1
+    if type(el)  == STREE:
+        nc = el
+    else:
+        nc = STREE(el, '__atom__')
+
+   # print el, nc.type
+
+    elements[elid] = nc
+    s = STREE(None, '__quote__')
+    sm = STREE(None, '__meta__')
+    sm.children = elements
+    s.children[0] = sm
+    #print sm.children
+    return s
 
 def defsym():
     def _eval(arglist, symbols):
@@ -45,6 +70,7 @@ def unpack(symbols, evaluate):
 
 def qaccess(symbols, evaluate):
     def _eval(arglist):
+        #print arglist
         index = int(arglist[-1])
         m = Method(None, arglist[0].children[0])
         elements = m.body.children

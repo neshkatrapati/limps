@@ -15,6 +15,7 @@ class Parser(object):
         quoteBef = False
         bufstack  = []
         for index, char in enumerate(line):
+            #print "Index", index
             if char == BRACE_OPEN:
 
                 new = STREE("child_"+str(total_nodes))
@@ -35,7 +36,9 @@ class Parser(object):
                 current = new
 
             elif char == BRACE_CLOSE:
+
                 if len(buf) > 0:
+                    #print buf
                     comps = shlex.split(buf)
                     comp_len = len(comps)
                     c = 0
@@ -44,21 +47,23 @@ class Parser(object):
                         if c not in current.children:
 
                             if ((i + 1) not in current.children) or current.children[i + 1].type != '__quote__':
-                                next_element = STREE(comps[i], "__atom__")
-                                current.children[c] = next_element
+                                if comps[i] != '`':
+                                    next_element = STREE(comps[i], "__atom__")
+                                    current.children[c] = next_element
                             i += 1
 
                         c += 1
-                    if len(bufstack) > 0:
-                        buf = bufstack.pop()
-                    else:
-                        buf = []
+                if len(bufstack) > 0:
+                    buf = bufstack.pop()
+                else:
+                    buf = ''
                 current = stack.pop()
             else:
                 if quoteBef:
                     quoteBef = False
                 if char == "`":
                     quoteBef = True
+                #if char != '`':
                 buf += char
         return root
 
