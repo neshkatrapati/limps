@@ -15,11 +15,12 @@
 * '<:/ `<1 2 3 4> 1 2>' gives `<2 3>, :/ is a slicing operator
 ```
 
-## Using the command line
+## Using the command line ##
+```python
 * print <expr> prints the AST
 * time <expr> runs and prints the time taken
 * load file_name load that file_name 
-
+```
 # How to run ? 
 
 ## Interactive
