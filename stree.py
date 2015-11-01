@@ -32,9 +32,30 @@ class STREE(object):
             graph.edge(data_as_string, child_data)
         return data_as_string
 
-    def __str__(self):
-        return self.node
+    def flatten(self):
+        s = ""
+        if self.type == "__quote__":
+            s += "`"
+        elif self.type != "__meta__":
+            s += self.node
+        else:
+            s = "<"
+        t = []
+        for index, child in self.children.items():
 
+            t += [str(child.flatten())]
+
+        s += " ".join(t)
+
+        if self.type in  ["__meta__"]:
+            s += ">"
+
+        return s
+    def __str__(self):
+        if self.type != "__quote__":
+            return self.node
+        else:
+            return self.flatten()
 
 class Method(object):
     def __init__(self, name, body, args = []):
@@ -44,4 +65,7 @@ class Method(object):
         self._parcount = None
 
     def __str__(self):
-        return "Method : " + str(self.name)
+        if self.name != None:
+            return "Method : " + str(self.name)
+        else:
+            return "Anonymous Method"

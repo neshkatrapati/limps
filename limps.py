@@ -12,6 +12,13 @@ from time import time
 
 
 def evaluate(node, symbols):
+    #print "Node", node, node.type
+
+    if node.type == "__quote__":
+        #print "I goes in"
+        m = Method(None, node.children[0])
+        return m
+
     if len(node.children) == 0:
         if node.type == "__meta__":
             return None
@@ -20,11 +27,22 @@ def evaluate(node, symbols):
         agg = []
         E = True
         rem = []
-        flags = {"case": False, "def":False, "while":False, "sdef": False}
+        flags = {"case": False,
+                 "def":False,
+                 "while":False,
+                 "sdef": False,
+                 "unp":False,
+                 "quote": False}
+
         case_stat = False
         for index, child in node.children.items():
             res = None
             #print index, child
+            if child.type == "__quote__":
+                agg.append(child)
+                continue
+
+
             if index == 0:
                 if child.node == "@":
                     flags["sdef"] = True
@@ -58,6 +76,8 @@ def evaluate(node, symbols):
                 while res:
                     res = evaluate(child, symbols)
                     res = convert_to_bool(res)
+                    if res == False:
+                        break
                     e = evaluate(node.children[index + 1], symbols)
 
             elif index == 2 and flags["while"] == True:
@@ -93,7 +113,14 @@ def evaluate_expr(expr, symbols):
     #print expr
     if len(expr) > 1:
         if expr[0] in functions:
-            return str(functions[expr[0]](expr[1:]))
+            if expr[0] in ["@", "@!"]:
+                t = functions[expr[0]](expr[1:], symbols)
+            else:
+                t = functions[expr[0]](expr[1:])
+            if type(t) == STREE and t.type == "__quote__":
+                return t
+            else:
+                return str(t)
         # else:
         #     return expr[-1]
     if expr[0] != None:
@@ -102,6 +129,8 @@ def evaluate_expr(expr, symbols):
                 return symbols[expr[0]]
 
             elif isinstance(expr[0], Method) and len(expr) == 1:
+                # if expr[0].name == None:
+                #     return evaluate(expr, symbols)
                 return expr[0]
 
             elif is_method(expr[0], symbols):
@@ -146,13 +175,17 @@ functions = {'+':operator('+'),
              '!=':operator('!='),
              'gt':operator('>'),
              'lt':operator('<'),
-             '@!':psym(symbols),
-             "@":defsym(symbols),
+             '@!':psym(),
+             "@":defsym(),
              "@F":deffun(methods),
+             ":":qaccess(symbols, evaluate),
+             ":/":qslice(symbols, evaluate),
+             "#":qlen(symbols, evaluate),
              "unpack":unpack(symbols, evaluate_expr),
              "stdin":stdin,
              "stdout": stdout,
              }
+string_except = {':', '#'}
 
 def parse_line(line):
     p = Parser()
