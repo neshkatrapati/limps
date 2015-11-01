@@ -8,11 +8,12 @@
 * '<@while <lt i 10> <@ i <+ i 1>>>' is a while loop
 ### Lists ###
 * Lists are just blocks of code which are not yet executed. so, lists are parts of asts
+```python
 * '`<1 2 3 4>' is a list
 * '<: `<1 2 3 4> 1>' gives 2, ':' is indexing operator
 * '<# `<1 2>>' gives 2, '#' is length operator
 * '<:/ `<1 2 3 4> 1 2>' gives `<2 3>, :/ is a slicing operator
-
+```
 
 ## Using the command line
 * print <expr> prints the AST
