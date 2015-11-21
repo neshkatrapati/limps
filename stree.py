@@ -42,7 +42,9 @@ class STREE(object):
             s = "<"
 
         t = []
-        for index, child in self.children.items():
+        #print self.children.items()
+        for index, child in sorted(self.children.items()):
+            #print index
             if type(child) == STREE:
                 t += [str(child.flatten())]
             else:

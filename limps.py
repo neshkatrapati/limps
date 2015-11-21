@@ -7,6 +7,7 @@ from parser  import Parser
 from helpers import *
 import shlex
 import cmd
+import os
 from copy import deepcopy
 from time import time
 
@@ -124,6 +125,7 @@ def evaluate_expr(expr, symbols):
         # else:
         #     return expr[-1]
     if expr[0] != None:
+        #print expr
         if type(expr[0]) != list and type(expr[0]) != STREE:
             if expr[0] in symbols and (is_method(expr[0], symbols) == False):
                 return symbols[expr[0]]
@@ -163,6 +165,16 @@ def evaluate_expr(expr, symbols):
             return expr[-1]
 
 
+def load_file(args):
+    #print args
+    for module_name in args:
+        file_name = module_name + ".limp"
+        with open(file_name) as f:
+                root = parse_line(f.read())
+                res = evaluate(root, symbols)
+
+
+
 symbols = {}
 methods = {}
 functions = {'+':operator('+'),
@@ -181,9 +193,11 @@ functions = {'+':operator('+'),
              ":":qaccess(symbols, evaluate),
              ":/":qslice(symbols, evaluate),
              "#":qlen(symbols, evaluate),
-             "unpack":unpack(symbols, evaluate_expr),
+             'type':get_type,
+             "@~":unpack(symbols, evaluate),
              "stdin":stdin,
              "stdout": stdout,
+             "import": load_file,
              }
 string_except = {':', '#'}
 
@@ -208,16 +222,49 @@ def set_rem(rem, symbols):
 
 
 class Interpreter(cmd.Cmd):
-    def __init__(self):
+    def __init__(self, hist_file = '.limps.hist'):
         cmd.Cmd.__init__(self)
         self.prompt = "limps> "
         self.intro = "Welcome to limps, My Lisp Implementation on Python"
+        self.hist_file = hist_file
+        self._hist = self.read_hist()
+
+    def read_hist(self):
+        l = []
+        if os.path.exists(self.hist_file):
+            with open(self.hist_file) as f:
+
+                for index, line in enumerate(f):
+                    l.append(line.strip())
+        return l
+    def write_hist(self):
+        with open(self.hist_file, "w") as f:
+            lines = "\n".join(self._hist)
+            f.write(lines)
+
+    def do_hist(self, args):
+        for h in self._hist:
+            print h
+
     def do_exit(self, args):
        """Exits from the console"""
+       self.write_hist()
        return -1
+
     def do_EOF(self, args):
        """Exit on system end of file character"""
        return self.do_exit(args)
+
+
+    def precmd(self, line):
+        """ This method is called after the line has been input but before
+            it has been interpreted. If you want to modifdy the input line
+            before execution (for example, variable substitution) do it here.
+        """
+        self._hist += [ line.strip() ]
+        return line
+
+
 
     def postloop(self):
        """Take care of any unfinished business.
@@ -256,13 +303,29 @@ class Interpreter(cmd.Cmd):
 if __name__ == "__main__":
 
     if len(sys.argv) > 1:
-        file_name = sys.argv[2]
-        with open(file_name) as f:
-            root = parse_line(f.read())
-            if sys.argv[1] == "-F":
+        #file_name = sys.argv[1]
+        if sys.argv[1] == '-P':
+            file_name = sys.argv[2]
+            with open(file_name) as f:
+                root = parse_line(f.read())
+                root.print_tree()
+
+        elif sys.argv[1] == '-T':
+            s = time()
+            file_name = sys.argv[2]
+            with open(file_name) as f:
+                root = parse_line(f.read())
                 res = evaluate(root, symbols)
                 print res
-            elif sys.argv[1] == "-P":
-                root.print_tree()
+            e = time()
+            print e - s, "Seconds"
+
+        elif os.path.isfile(sys.argv[1]):
+            file_name = sys.argv[1]
+            with open(file_name) as f:
+                root = parse_line(f.read())
+                res = evaluate(root, symbols)
+                print res
+
     else:
         Interpreter().cmdloop()

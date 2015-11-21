@@ -44,3 +44,20 @@
              <<@ sum <+ sum <f <: l i>>>>
               <@ i <+ i 1>>>>
      sum>>
+
+<@F extend
+    <a b>
+    <<@ i 0>
+    <@while <lt i <# b>>
+            <<@ a <+ a <: b i>>>
+             <@ i <+ i 1>>>>
+    a>>
+
+
+<@F head
+    <l>
+    <: l 0>>
+
+<@F tail
+    <l>
+    <:/ l 1 <# l>>>
