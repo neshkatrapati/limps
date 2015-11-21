@@ -61,3 +61,30 @@
 <@F tail
     <l>
     <:/ l 1 <# l>>>
+
+
+<@F set
+    <l index val>
+    <<@ nl `<>>
+     <@ i 0>
+     <@while
+        <lt i <# l>>
+        <<@case
+          <= index i>
+          <@ nl <+ nl val>>
+          <@ nl <+ nl <: l i>>>>
+          <@ i <+ i 1>>>>
+      nl>>
+
+<@F find
+    <a key>
+    < <@ i 0>
+      <@ found_at -1>
+      <@while
+        <lt i <# a>>
+        <<@case
+          <= <: a i> key>
+          <@ found_at i>
+          None>
+          <@ i <+ i 1>>>>
+      found_at>>

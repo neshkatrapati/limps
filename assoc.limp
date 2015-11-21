@@ -1,0 +1,74 @@
+<import listops>
+
+
+<@F assoc
+    <>
+    <`<`<> `<>>>>
+
+
+<@F assoc_from_kv
+    <ks vs>
+    <<@ temp `<>>
+     <@ temp <+ temp ks>>
+     <@ temp <+ temp vs>>
+     temp>>
+
+<@F keys
+    <a>
+    <: a 0>>
+
+<@F vals
+    <a>
+    <: a 1>>
+
+<@F [+]
+    <a key val>
+    <
+      <@ ks <+ <keys a> key>>
+      <@ vs <+ <vals a> val>>
+      <assoc_from_kv ks vs>>>
+
+
+<@F find_key
+    <a key>
+    <find <keys a> key>>
+
+<@F [.]
+    <a key>
+    <<@ index <find_key a key>>
+     <@case
+        <gt index -1>
+        <: <vals a> index>
+        None>>>
+
+
+<@F [@]
+    <a key val>
+    <<@ index <find_key a key>>
+     <@case
+        <gt index -1>
+        <<@ nvals <set <vals a> index val>>
+          <assoc_from_kv <keys a> nvals>>
+        None>>>
+
+
+!<@ a <assoc>>
+!<@ a <[+] a 1 2>>
+!<[.] a 1>
+!<@ a <[@] a 1 3>>
+!<[.] a 1>
+
+
+! Docs
+! assoc : creates a basic associative list
+! [+] a key val : adds key, val pair to association a
+! [.] a key : gets the value of association a at key
+! [@] a key val : sets key to val in association a
+
+
+
+
+
+
+
+

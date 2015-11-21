@@ -1,0 +1,41 @@
+<import assoc>
+<@F Type
+    <properties defaults>
+    < <@ props <stringify_ks properties>>
+      <@F __anon__
+        <>
+        <assoc_from_kv props defaults>>
+        >>
+
+<@F stringify_ks
+    <ks>
+    <<@ i 0>
+     <@ sks `<>>
+     <@while
+      <lt i <# ks>>
+      <
+        <@ sks <+ sks <stringify <: ks i>>>>
+        <@ i <+ i 1>>>>
+      sks
+      >>
+
+<@F .
+    <t p>
+    <[.] t <stringify p>>>
+
+<@F .@
+    <t p v>
+    <<@ index <find_key t <stringify p>>>
+     <@case
+        <lt index 0>
+        <[+] t <stringify p> v>
+        <[@] t <stringify p> v>
+        >>>
+
+<@ Point <Type `<x y> `<0.0 0.0>>>
+<@ p <Point>>
+<. p x>
+<@ p <.@ p z 0.0> >
+<stdout p>
+<@ p <.@ p x 1.0> >
+<p>

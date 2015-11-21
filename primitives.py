@@ -52,6 +52,11 @@ def list_add(l, el, rev = False):
 def limps_string(string):
     return "\"" + string  + "\""
 
+def stringify(args):
+    if '\"' in args[0]:
+        args[0] = args[0].replace('\"', '')
+
+    return limps_string(args[0])
 
 def get_type(args):
     if type(args[0]) == STREE:

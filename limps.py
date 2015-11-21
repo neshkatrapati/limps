@@ -198,6 +198,7 @@ functions = {'+':operator('+'),
              "stdin":stdin,
              "stdout": stdout,
              "import": load_file,
+             "stringify":stringify,
              }
 string_except = {':', '#'}
 
