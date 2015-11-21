@@ -15,11 +15,29 @@
 * '<:/ `<1 2 3 4> 1 2>' gives `<2 3>, :/ is a slicing operator
 ```
 
+Look at respective .limp files for more docs
+- basefuncs.limp : Basic functions
+- listops.limp : List operations
+- assoc.limp : Assoicative Lists and its functions
+- Type.limp : Types and their related functions
+
+None of these files are included by default (not even in the REPL) to use them,
+```python
+<import file_name_without_dotlimp>
+like this <import basefuncs>
+```
+
+## Fun facts ##
+* Lists are just code not executed. They are parts of the AST
+* They can be executed.
+* Associative Lists are made up of lists
+* Types are made up of Associative Lists
+* When you call Type, it returns a function which returns an Assoc
+
 ## Using the command line ##
 ```python
 * print <expr> prints the AST
 * time <expr> runs and prints the time taken
-* load file_name load that file_name 
 ```
 # How to run ? 
 
@@ -29,5 +47,5 @@
  ```
 ## With File
   ```bash
-  python limps.py -F test.limp
+  python limps.py test.limp
   ```

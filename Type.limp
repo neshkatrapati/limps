@@ -1,4 +1,11 @@
 <import assoc>
+
+! Docs
+! Type :: <@ t <Type `<a b> <0 1>>> : Creates a type
+! <@ t_object <t>> : Instantiates a type
+! <. t_object key> : fetches the value for the property 'key' in t_object
+! <.@ t_object key val> : sets the value to 'val' for the property 'key' in t_object
+
 <@F Type
     <properties defaults>
     < <@ props <stringify_ks properties>>
@@ -32,10 +39,10 @@
         <[@] t <stringify p> v>
         >>>
 
-<@ Point <Type `<x y> `<0.0 0.0>>>
-<@ p <Point>>
-<. p x>
-<@ p <.@ p z 0.0> >
-<stdout p>
-<@ p <.@ p x 1.0> >
-<p>
+!<@ Point <Type `<x y> `<0.0 0.0>>>
+!<@ p <Point>>
+!<. p x>
+!<@ p <.@ p z 0.0> >
+!<stdout p>
+!<@ p <.@ p x 1.0> >
+!<p>

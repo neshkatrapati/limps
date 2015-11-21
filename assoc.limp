@@ -1,5 +1,10 @@
 <import listops>
 
+! Docs
+! assoc : creates a basic associative list
+! [+] a key val : adds key, val pair to association a
+! [.] a key : gets the value of association a at key
+! [@] a key val : sets key to val in association a
 
 <@F assoc
     <>
@@ -59,11 +64,7 @@
 !<[.] a 1>
 
 
-! Docs
-! assoc : creates a basic associative list
-! [+] a key val : adds key, val pair to association a
-! [.] a key : gets the value of association a at key
-! [@] a key val : sets key to val in association a
+
 
 
 
