@@ -1,0 +1,17 @@
+<@F C?
+    <x>
+    <= "composite" <type x>>>
+
+<@F A?
+    <x>
+    <= "atomic" <type x>>>
+
+<@F and
+   <p q>
+   <@case
+      <= p q>
+      <@case
+        <= p True>
+        True
+        False>
+      False>>

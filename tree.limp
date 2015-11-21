@@ -1,0 +1,83 @@
+<import basefuncs>
+<import listops>
+
+<@F add_tree_node
+		<tree element>
+		<@case
+				<= 0 <# tree>>
+				<+ tree element>
+				<<@ center_el <: tree </ <# tree> 2>>>
+					<@case
+						<1 <# tree>>
+						<@case
+							<gt element center_el>
+							<+ tree element>
+							<+ element tree>>
+						< <@ left_tree <:/ tree 0 <- </ <# tree> 2> 1>>>
+						 	<@ right_tree <:/ tree <+ </ <# tree> 2> 1> <# tree>>>
+						 	<@ t `<>>
+							<@case
+								<gt element center_el>
+								<@ right_tree <add_tree_node right_tree element>>
+								<@ left_tree <add_tree_node left_tree element>>>
+							<extend <+ left_tree center_el> right_tree>>>>>>
+
+<@F tree
+		<l>
+		<	<@ t `<>>
+			<@ i 0>
+			<@while
+				 <lt i <# l>>
+				 <<@ t <add_tree_node t <: l i>>>
+				 	<@ i <+ i 1>>>>
+			t>>
+
+<@F root
+		<t>
+		<<: t </ <# t> 2>>>>
+
+<@F left
+		<t>
+		<@case
+			<gt <# t> 1>
+			<:/ t 0 <- </ <# t> 2> 1>>
+			None
+			>>
+
+
+<@F right
+		<t>
+		<@case
+			<and <gt <# t> 1> <lt <+ </ <# t> 2> 1> <# t>>>
+			<:/ t <+ </ <# t> 2> 1> <# t>>
+			None
+			>>
+
+
+<@F print_tree
+		<t>
+		<@case
+			<?A t>
+			<stdout t>
+			<
+				<stdout <root t>>
+				<@case
+					<= <left t> None>
+					None
+					<print_tree <left t>>>
+				<@case
+					<= <right t> None>
+					None
+					<print_tree <right t>>>
+			>>>
+
+
+
+
+
+<@ t <tree `<12 9 44 36 -2 -14 0 11>>>
+<stdout t>
+<print_tree t>
+!<stdout <root t>>
+!<stdout <left t>>
+!<stdout <right t>>
