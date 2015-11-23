@@ -1,9 +1,30 @@
-<@F pair <a b> <@F _pair <i> <@case <= i 0> a b>>>
-<@F distance <p q>
-    <** <+ <** <- <p 1> <q 1>> 2>
-           <** <- <p 1> <q 1>> 2>> 0.5>>
+<import listops>
+! <@ p <+ `<> <@F h <stdout "Hello123">>>>
+! <@F dostuff
+!     <*args>
+!     <head args>>
 
-<stdout <distance <pair 1 1> <pair 0 0>>>
+! <@F tfunc
+!     <a b *args>
+!     <<stdout args>
+!     <dostuff *args>>>
 
-<@F sigma <p f>
-          <+ <f <p 1>>
+! <tfunc 1 2 3 4>
+
+<@F area_of_a_circle
+    <r>
+    <* PI <** r 2>>>
+
+
+<@F set_context
+    <f>
+    <
+      <@ PI 3.14>
+      <@F __anon__
+          <*args>
+          <f *args>>
+    >>
+
+<@ a <set_context @area_of_a_circle>>
+<a 10>
+

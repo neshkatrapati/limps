@@ -2,6 +2,11 @@
     <x>
     <= "composite" <type x>>>
 
+! Not working !!
+<@F M?
+    <x>
+    <= "method" <type x>>>
+
 <@F A?
     <x>
     <= "atomic" <type x>>>

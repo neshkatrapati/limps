@@ -24,6 +24,7 @@ def evaluate(node, symbols):
         if node.type == "__meta__":
             return None
         return evaluate_expr([node.node], symbols)
+
     else:
         agg = []
         E = True
@@ -113,12 +114,16 @@ def evaluate(node, symbols):
 def evaluate_expr(expr, symbols):
     #print expr
     if len(expr) > 1:
+        #print expr
         if expr[0] in functions:
             if expr[0] in ["@", "@!"]:
                 t = functions[expr[0]](expr[1:], symbols)
             else:
+                #print expr[]
                 t = functions[expr[0]](expr[1:])
-            if type(t) == STREE and t.type == "__quote__":
+            if (type(t) == STREE and t.type == "__quote__") or type(t) == Method:
+                if type(t) == Method:
+                    return evaluate(t.body, symbols)
                 return t
             else:
                 return str(t)
@@ -127,22 +132,43 @@ def evaluate_expr(expr, symbols):
     if expr[0] != None:
         #print expr
         if type(expr[0]) != list and type(expr[0]) != STREE:
+            #print "E", expr[0]
             if expr[0] in symbols and (is_method(expr[0], symbols) == False):
+
                 return symbols[expr[0]]
 
             elif isinstance(expr[0], Method) and len(expr) == 1:
+                return evaluate(expr[0].body, symbols)
                 # if expr[0].name == None:
                 #     return evaluate(expr, symbols)
-                return expr[0]
+               # return expr[0]
 
             elif is_method(expr[0], symbols):
+                #print expr
                 nsymbols = deepcopy(symbols)
                 method = symbols[expr[0]]
                 body = method.body
                 args = method.args
-                #print expr
+                #print expr, args
                 for index, arg in enumerate(args):
-                    nsymbols[arg] = expr[index + 1]
+                    if arg.startswith('*'):
+                        #print "Arg", arg
+                        if type(expr[index + 1]) == str and expr[index + 1].startswith("*"):
+                           nsymbols[arg[1:]] = symbols[expr[index + 1][1:]]
+                        else:
+                            l = expr[(index + 1):]
+                            nsymbols[arg[1:]] = make_list(l)
+                        break
+                    if (index + 1) < len(expr):
+                        if type(expr[index + 1]) == str and expr[index + 1].startswith("*"):
+                            p = symbols[expr[index + 1][1:]].children[0].children
+                            #print p
+                            for j, t in p.items():
+                                nsymbols[args[index + j]] = t
+                            break
+
+                        nsymbols[arg] = expr[index + 1]
+
                 if method._parcount != None:
                     for k, v in method._parcount.items():
                         if k not in nsymbols:
@@ -193,12 +219,13 @@ functions = {'+':operator('+'),
              ":":qaccess(symbols, evaluate),
              ":/":qslice(symbols, evaluate),
              "#":qlen(symbols, evaluate),
-             'type':get_type,
+             'type':get_type(symbols),
              "@~":unpack(symbols, evaluate),
              "stdin":stdin,
              "stdout": stdout,
              "import": load_file,
              "stringify":stringify,
+             "is_method":is_method,
              }
 string_except = {':', '#'}
 

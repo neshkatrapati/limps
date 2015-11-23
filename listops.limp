@@ -54,6 +54,10 @@
     a>>
 
 
+<@F list
+    <*args>
+    <args>>
+
 <@F head
     <l>
     <: l 0>>

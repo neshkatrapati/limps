@@ -1,16 +1,18 @@
 <import assoc>
-
+<import basefuncs>
 ! Docs
 ! Type :: <@ t <Type `<a b> <0 1>>> : Creates a type
 ! <@ t_object <t>> : Instantiates a type
 ! <. t_object key> : fetches the value for the property 'key' in t_object
 ! <.@ t_object key val> : sets the value to 'val' for the property 'key' in t_object
 
+
+
 <@F Type
-    <properties defaults>
+    <properties>
     < <@ props <stringify_ks properties>>
       <@F __anon__
-        <>
+        <defaults>
         <assoc_from_kv props defaults>>
         >>
 
@@ -26,9 +28,24 @@
       sks
       >>
 
+<@F set_self
+    <o el>
+    <
+
+      <@ this o>
+      <@F __anon__
+          <*args>
+          <<: el 0> *args>>>>
 <@F .
     <t p>
-    <[.] t <stringify p>>>
+    <
+      <@ el <[.] t <stringify p>>>
+
+      <@case
+        <and <C? el> <and <gt <# el> 0> <M? <: el 0>>>>
+        <set_self t el>
+        el
+    >>>
 
 <@F .@
     <t p v>
@@ -39,9 +56,14 @@
         <[@] t <stringify p> v>
         >>>
 
-!<@ Point <Type `<x y> `<0.0 0.0>>>
-!<@ p <Point>>
+
+<@ Point <Type `<x y>>>
+<@ p <Point `<0.0 0.0>>>
 !<. p x>
+
+<@F print <> <stdout <. this x>>>
+<@ p <.@ p hello `<print>>>
+<. p hello>
 !<@ p <.@ p z 0.0> >
 !<stdout p>
 !<@ p <.@ p x 1.0> >

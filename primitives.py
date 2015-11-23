@@ -4,7 +4,7 @@ from copy import deepcopy
 
 def operator(op):
     def _eval(arglist):
-
+        print arglist
         if type(arglist[0]) != STREE and type(arglist[1]) != STREE:
             #print arglist
             return eval(op.join(arglist))
@@ -34,7 +34,8 @@ def list_add(l, el, rev = False):
             #print "Test"
             elid = min(elements.keys()) - 1
             #print elid
-    if type(el)  == STREE:
+    if type(el) in [STREE, Method]:
+        #print type(el)
         nc = el
     else:
         nc = STREE(el, '__atom__')
@@ -58,14 +59,20 @@ def stringify(args):
 
     return limps_string(args[0])
 
-def get_type(args):
-    if type(args[0]) == STREE:
-        return limps_string("composite")
-    else:
-        return limps_string("atomic")
+def get_type(symbols):
+    def _eval(args):
+        #print args
+        if type(args[0]) == STREE:
+            return limps_string("composite")
+        elif type(args[0]) == Method or ((args[0] in symbols) and type(symbols[args[0]]) == Method):
+            return limps_string("method")
+        else:
+            return limps_string("atomic")
+    return _eval
 
 def defsym():
     def _eval(arglist, symbols):
+
         symbols[arglist[0]] = arglist[1]
         return str(arglist[0]) + "=" + str(arglist[1])
     return _eval
@@ -108,17 +115,28 @@ def qaccess(symbols, evaluate):
     def _eval(arglist):
         #print arglist
         index = int(arglist[-1])
+
         if type(arglist[0]) == STREE:
 
             m = Method(None, arglist[0].children[0])
             elements = m.body.children
             key = elements.keys()[index]
             x = elements[key]
+            #print type(x)
             return x
         else:
             #print arglist
             return arglist[0][index]
     return _eval
+
+def make_list(l= []):
+    s = STREE(None, ntype = '__quote__')
+    sm = STREE(None, ntype = '__meta__')
+    for index, key in enumerate(l):
+        sm.children[index] = key
+    s.children[0] = sm
+    return s
+
 
 def qslice(symbols, evaluate):
     def _eval(arglist):
