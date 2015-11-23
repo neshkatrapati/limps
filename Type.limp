@@ -57,13 +57,13 @@
         >>>
 
 
-<@ Point <Type `<x y>>>
-<@ p <Point `<0.0 0.0>>>
+!<@ Point <Type `<x y>>>
+!<@ p <Point `<0.0 0.0>>>
 !<. p x>
 
-<@F print <> <stdout <. this x>>>
-<@ p <.@ p hello `<print>>>
-<. p hello>
+!<@F print <> <stdout <. this x>>>
+!<@ p <.@ p hello `<print>>>
+!<. p hello>
 !<@ p <.@ p z 0.0> >
 !<stdout p>
 !<@ p <.@ p x 1.0> >
