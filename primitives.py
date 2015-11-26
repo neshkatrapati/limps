@@ -4,7 +4,7 @@ from copy import deepcopy
 
 def operator(op):
     def _eval(arglist):
-        print arglist
+        # print arglist
         if type(arglist[0]) != STREE and type(arglist[1]) != STREE:
             #print arglist
             return eval(op.join(arglist))

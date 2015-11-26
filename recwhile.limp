@@ -1,14 +1,10 @@
-<@ i 0>
-<@F check
-    <lt i 10>>
-
-<@F body
-    <<stdout i>
-     <@ i <+ i 1>>>>
+<@F init_x
+    <@ i 10>>
 
 <@F while
-    <c b>
-    <@case <c>
-	   <while c b>
-	   None>>
+    <init condition change>
+    <<init>
+     i
+    >>
 
+<while @init_x None None>
