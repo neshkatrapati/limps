@@ -78,7 +78,9 @@ def defsym():
     return _eval
 
 def psym():
+
     def _eval(arglist, symbols):
+
         import pprint
         pprint.pprint(symbols)
     return _eval

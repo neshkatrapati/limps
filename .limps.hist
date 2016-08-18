@@ -1,0 +1,436 @@
+EOF
+help
+EOF
+hist
+
+
+hist
+hist
+EOF
+<gt 1 2>
+EOF
+<+ 1 `<2>>
+<+ 1 2>
+<+ `<1> 2>
+<+ 1 `<2>>
+EOF
+<+ 1 `<2>>
+EOF
+<+ 1 `<2>>
+EOF
+<+ 1 `<2>>
+EOF
+<+ 1 `<2>>
+EOF
+<+ 1 `<2>>
+EOF
+<+ 1 `<2>>
+<+ `<1> 2>
+<+ `<1> `<2>>
+<+ 1 `<2>>
+EOF
+<+ 1 `<2>>
+EOF
+load listops.limp
+<range 0 10>
+<:/ <range 0 10> 0 5>
+<:/ <range 0 10> 0 4>
+<:/ <range 0 10> 6 10>
+EOF
+<import listops.limp>
+<import 'listops.limp'>
+<import "listops.limp">
+EOF
+<import a b c d>
+EOF
+<import listops>
+<range 1 10>
+EOF
+<+ `<1> `<2>>
+EOF
+<import listops>
+<extend `<1> `<2>>
+<@ a `<1>>
+<extend a `<2>>
+<a>
+EOF
+<import listops>
+<extend `<1> `<2>>
+<extend `<1> `<2>>
+<extend `<1> `<1 2>>
+<+ `<1> 2>
+<+ `<1> 2>
+EOF
+<import listops>
+<extend `<1> `<2>>
+<@ b `<2>>
+<# b>
+<lt 0 <# b>>
+EOF
+<import listops>
+<extend `<1> `<2>>
+EOF
+<import tree>
+<tree `<3 11 -1 9>>
+<root <tree `<3 11 -1 9>>>
+<@ t <tree `<3 11 -1 9>>>
+<: t </ <# t> 2>>
+EOF
+<@F head <l> <: l 0>>
+<head `<1>>
+
+<@F root
+<t>
+<import tree>
+<@F root <t> <stdout </ <# t> 2>>
+<@F root <t> <stdout </ <# t> 2>>>
+<root <range 1 10>>
+<@F root <t> <: t </ <# t> 2>>>
+<root <range 1 10>>
+EOF
+<import tree>
+<tree `<3 4 1 0>>
+<tree>
+print <tree `<3 4 1 0>>
+<tree>
+EOF
+hist
+<import tree>
+<tree `<1 2 3 4>>
+<import listops>
+<tree `<1 2 3 4>>
+<tree `<1 4 3 -1>>
+EOF
+<# 1>
+<# `<1>>
+<type `<1>>
+EOF
+<= "composite" <type `<1>>>
+<= "atomic" <type `<1>>>
+EOF
+<= "composite" <type `<1>>>
+EOF
+<import basefuncs>
+<C? 1>
+<C? `<1>>
+<= True <C? `<1>>>
+<= False <C? `<1>>>
+EOF
+<import tree>
+<left `<2>>
+EOF
+<import tree>
+<left `<1>>
+<left `<1>>
+EOF
+<import tree>
+<right `<1 2>>
+<right `<1 2 3>>
+<right `<1>>
+<left `<1>>
+<left `<1 2>>
+<and
+<and>
+EOF
+<import basefuncs>
+<and True False>
+<and True True>
+<= True True>
+<@ p True>
+<= p True>
+EOF
+<import basefuncs>
+<and True True>
+EOF
+<import tree>
+<right `<1 2>>
+EOF
+<import tree>
+<right `<1 2>>
+<right `<2 1>>
+<right `<2 1 3>>
+EOF
+`<<stdout "Hello">>
+<type `<<stdout "Hello">>>
+EOF
+`<stdout "Hello">
+<head `<stdout "Hello">>
+EOF
+`<stdout "Hello">
+<unpack `<stdout "Hello">>
+EOF
+`<stdout "Hello">
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+<unpack `<+ 1 2>>
+<unpack <`<+ 1 2>>>
+EOF
+<unpack `<stdout "Hello">>
+EOF
+<unpack `<stdout "Hello">>
+<unpack `<+ 1 2>>
+EOF
+<@\\ `<stdout "Hello">>
+<@\ `<stdout "Hello">>
+EOF
+<@\ `<stdout "Hello">>
+EOF
+<@~ `<stdout "Hello">>
+<@~ `<+ 1 2 3 4>>
+<@~ `<1 2 3 4>>
+EOF
+<import basefuncs>
+<type>
+<type 1>
+EOF
+<import basefuncs
+<import basefuncs>
+<type>
+<type 1>
+<@F Type <> <`<<> <>>>>
+<Type>
+<@F Type <> <`<`<> `<>>>>
+<Type>
+EOF
+<@F [+] <a b> <+ a b>>
+<[+] 1 2>
+EOF
+EOF
+<import assoc>
+<keys a>
+EOF
+EOF
+<import assoc>
+<a>
+<keys a>
+<+ <keys a> 1>
+<@ ks <+ <keys a> 1>>
+<+ <vals a> 2>
+<@ vs <+ <vals a> 2>>
+<@ temp `<>>
+<+ temp ks>
+<+ temp vs>
+<@ temp <+ temp ks>>
+<@ temp <+ temp vs>>
+EOF
+<import Type>
+<Type>
+<@ t <Type>>
+<t>
+<@ point <Type>>
+<point>
+<point>
+EOF
+EOF
+<import assoc
+<import assoc>
+<@ a <assoc>>
+<[+] a t t>
+EOF
+<stringify t>
+EOF
+<stringify "t"
+<stringify "t">
+<stringify "t">
+EOF
+<stringify "t">
+EOF
+<stringify "t">
+EOF
+<import Type>
+<stringify <: `< x y > 0>>
+EOF
+<import listops>
+<@ a `<1 2 3 4>>
+<set a 1 5>
+EOF
+<import listops>
+<find `<2 5 3 4> 4>
+EOF
+<@ t `< <@ p 10> <* p p>>>
+<@~ t>
+<head t>
+<: t 1>
+<: t 0>
+<@~ <: t 0>>
+<@ t `< <@ p 10> <* 2 2>>>
+<@~ <: t 1>>
+<@~ `<<: t 1>>>
+<@ t `< <@ p 10> `<* 2 2>>>
+<@~ <: t 1>>
+EOF
+<@F h <stdout "Hello">>
+<a @h>
+EOF
+<import listops>
+<@ p <+ `<> <@F h <stdout "Hello">>>>
+<head p>
+print <head p>
+<head p>
+<p>
+print <p>
+<p>
+<head p>
+<<head p>>
+<: <head p> 1>
+EOF
+<`<1>>
+<= `<1> `<2>>
+<= `<1> `<2>>
+<+ `<1> `<2>>
+EOF
+<import listops>
+<@F square <x> <** x 2>>
+<sigma @square <range 1 10>>
+EOF
+<@F test <stdout "Hello">>
+<test>
+<@F test <> <stdout "Hello">>
+<test>
+EOF
+<import listops>
+<@F square <x> <* x x>>
+<sigma @square <range 1 10>>
+EOF
+<import listops>
+<list 1 2 3 4>
+<head <list 1 2 3 4>>
+EOF
+EOF
+EOF
+<load listops>
+<@F sqrt <x> <** x 2>>
+<sigma @sqrt <range 1 10>>
+<range 1 10>
+<range 0 10>
+`<>
+<+ `<> 1>
+<+ `<> 2>
+<+ `<> 2>
+<+ `<1> 2>
+<# `<>>
+<# `<1>>
+<# `<1 2>>
+<range 0 10>
+<range 10 0>
+<range>
+<load listops>
+<range>
+<range 1 0>
+<@range>
+<@range 1 2>
+<sum_nums `<1 2>>
+<head `<1 2>>
+<load listops>
+<sigma @sqrt `<1 2>>
+<import listops>
+<sigma @sqrt `<1 2>>
+<sigma @sqrt <range 1 10>>
+EOF
+EOF
+<@F sq <x> <** x 2>>
+<type <@F sq <x> <** x 2>>>
+EOF
+<type <@F sq <x> <** x 2>>>
+EOF
+<@F sq <x> <** x 2>>
+<<: `<sq> 0> 10>
+EOF
+EOF
+<import Type>  ! This will help us declare new types
+<assoc>
+<@ Animal <Type `<name legs has_tail>>>
+<@ a <Animal `<"jimmy" 4 True>>>
+<. a name>
+time <. a name>
+time <. a has_tail>
+time <= <. a has_tail> True>
+<import basefuncs>
+time <and <. a has_tail> True>
+<a>
+< + <. a legs> 2 >
+<[.] a "legs">
+EOF
+<import type_tree>
+EOF
+<import type_tree>
+<Tree>
+<@Tree>
+<Tree `<10 None None>>
+<@ t <Tree `<10 None None>>>
+<. t left>
+<. t node>
+EOF
+<import listops>
+<list 1 2 3 <+ 1 2>>
+EOF
+EOF
+<@ a 1>
+EOF
+`<stdout 1>
+<@ t `<stdout 1>>
+<t>
+<@~ t>
+EOF
+<@F sq <x> <* x x>>
+<@F t <f x> <f x>>
+<t @sq 1>
+<t @sq 2>
+@sq
+<@sq>
+EOF
+EOF
+EOF
+EOF
+<@F sym <x> <extend `<> x>>
+<import listops>
+<sym 1>
+<@ l <list <sym John> <sym Mary>>>
+<sym John>
+<: <sym John> 0>
+<@F sym <x> <list x>>
+<sym 1>
+<sym John>
+<@ l <list <sym John> <sym Mary>>>
+<find l <sym John>>
+<find `<`<1>> `<1>>
+<find `<"John"> "John">
+EOF
+<import basefuncs>
+<and True False>
+<and True True>
+<import basefuncs>
+<or True False>
+<import basefuncs>
+<or True False>
+<stdout True>
+<@ x <stdin>>
+<@ x <stdin "Hello" >>
+<x>
+<stdout <x>>
+<@!>
+<@! x>
+@1
+@!
+<@!>
+<@F sq <x> <* x x>>
+<@! sq>
+<@! 1 2 3>
+EOF

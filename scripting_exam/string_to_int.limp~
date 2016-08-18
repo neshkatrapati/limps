@@ -1,0 +1,6 @@
+
+<@F string_to_int
+    <string place>
+    <>>
+
+<string_to_int "1234">

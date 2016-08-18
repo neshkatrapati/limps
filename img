@@ -1,0 +1,7 @@
+graph {
+	"-__root__"
+	"0.-child_1"
+	"0.0.-#symbols"
+		"0.-child_1" -- "0.0.-#symbols"
+		"-__root__" -- "0.-child_1"
+}

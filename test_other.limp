@@ -1,0 +1,39 @@
+<@F sq 
+	<x> 
+	<* x x>>
+
+
+sq: x -> y %/ y = x * x 
+
+Converted into 	positional arg-structure 
+
+0(@F), 1(sq), 2(0(x)), 3(0(y{i})), 4(0(=), 1(y{i}), 2(0(*), 1(x), 2(x)))
+=[co linear indexing]> 
+
+# Formal Limps (Fimps)
+
+// World [A]
+
+IS = {`John, `Mary, `Jason, `Max, `Carol}
+=; <@ den <Type `<symbol>>> 
+=; <@ IS <@ Type `<John, Mary, Jason, Max, Carol>>>
+sleeps = {`John, `Mary, `Jason}
+=; -- same
+//
+
+
+|_:E| :> e:E -> t:T %/ True if `e in IS
+
+
+|sleeps| :> e:E -> t:T / True if sleeps(e)
+
+
+t:T <- |sleeps|(|John:E|)
+
+
+
+
+
+
+
+

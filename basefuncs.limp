@@ -20,3 +20,14 @@
         True
         False>
       False>>
+
+<@F or
+    <p q> 
+    <@case 
+      <= p False>
+      <@case 
+        <=q True>
+        True
+        False>
+      True>>
+

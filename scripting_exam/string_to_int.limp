@@ -1,0 +1,11 @@
+
+<@F string_to_int
+    <string>
+    <@case
+	   <= <# string> 1>
+	   <string>
+	   <+
+        <* <: string 0> <** 10 <- <# string> 1>>>
+        <string_to_int <:/ string 1 <# string>>>>>>
+
+<string_to_int "1234">

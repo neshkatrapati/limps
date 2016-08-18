@@ -1,0 +1,54 @@
+<import listops>
+<import assoc>
+
+<@ IS `<"John" "Jason" "Mary"  "Julian"  "Jemma"  "Jane">>
+<@ SLEEPS <assoc_from_kv IS <list True False False True True True>>>
+<@ JOHN <assoc_from_kv IS <list True False False False False False>>>
+<@ MARY <assoc_from_kv IS <list False True False False False False>>>
+
+
+
+<@F ISet
+	<x>
+	<<@ a <assoc_from_kv IS <list False False False False False False>>>
+	 <[@] a x True>>>
+
+
+<@F ISets    
+   <<@ a <assoc_from_kv IS <list False False False False False False>>> 
+    <@ i 0>
+    <@while
+      <lt i <# IS>>
+      <<@ a <[@] a <: IS i> <ISet <: IS i>>>>
+      	<@ i <+ i 1>>>>
+    a 
+   >>
+
+<@ EntitySets <ISets>> 
+
+<@F Entity
+	<S>
+	<@F __anon__ 
+		<@F __anon__ 
+			<k> 
+			<[.] S k>>>>
+
+
+<@F Predicate
+	<P>
+	<@F __anon__
+	<e> 
+	<<@ i 0> 
+	 <@ es <keys P>> 
+	 <@ t False>
+	 <@while 
+	 	<lt i <# es>>
+	 	<<@case <e <: es i>> <@ t <[.] P <: es i>>>> 					
+		 <@ i < + i 1>>>>
+	 t>>>
+
+
+<@ Mary <Entity MARY>>
+<@ John <Entity JOHN>> 
+<@ Sleeps <Predicate SLEEPS>>
+

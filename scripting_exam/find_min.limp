@@ -1,0 +1,26 @@
+
+<@F min
+    <a b>
+    <@case
+        <gt a b>
+        b
+        a>>
+
+<@F max
+    <a b>
+    <@case
+        <gt a b>
+        a
+        b>>
+
+
+<@F find_pole
+    <l f>
+    <@case
+        <= <# l> 2>
+        <f <: l 0> <: l 1>>
+        <f <f <: l 0> <: l 1>> <find_min <:/ l 1 <# l>> f>>
+        >>
+
+
+<find_pole `<1 2 3 4> @min>

@@ -133,10 +133,6 @@ def evaluate_expr(expr, symbols):
         #     return expr[-1]
     if expr[0] != None:
         #print expr
-        if expr[0] in ['#symbols']:
-            functions[expr[0]](None, symbols)
-            return None
-        
         if type(expr[0]) != list and type(expr[0]) != STREE:
             #print "E", expr[0]
             if expr[0] in symbols and (is_method(expr[0], symbols) == False):
@@ -144,11 +140,10 @@ def evaluate_expr(expr, symbols):
                 return symbols[expr[0]]
 
             elif isinstance(expr[0], Method) and len(expr) == 1:
-                #print "I am in "
-                #return evaluate(expr[0].body, symbols)
+                return evaluate(expr[0].body, symbols)
                 # if expr[0].name == None:
                 #     return evaluate(expr, symbols)
-                return expr[0]
+               # return expr[0]
 
             elif is_method(expr[0], symbols):
                 #print expr
@@ -220,7 +215,7 @@ functions = {'+':operator('+'),
              '!=':operator('!='),
              'gt':operator('>'),
              'lt':operator('<'),
-             '#symbols':psym(),
+             '@!':psym(),
              "@":defsym(),
              "@F":deffun(methods),
              ":":qaccess(symbols, evaluate),
@@ -328,7 +323,6 @@ class Interpreter(cmd.Cmd):
        """Called on an input line when the command prefix is not recognized.
           In that case we execute the line as Python code.
        """
-
        root = parse_line(line)
        #root.print_tree()
        res = evaluate(root, symbols)

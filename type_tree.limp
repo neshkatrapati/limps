@@ -1,0 +1,61 @@
+<import Type>
+<import listops>
+
+<@ Tree <Type `<node left right>>>
+<@F make_tree
+    <l>
+    <@case
+        <= <# l> 1>
+        <Tree <list <: l 0> None None>>
+        < <@ left_tree <:/ l 0 <- </ <# l> 2> 1>>>
+          <@ right_tree <:/ l <+ </ <# l> 2> 1> <# l>>>
+          <@ center <: l </ <# l> 2>>>
+          <Tree <list center <make_tree left_tree> <make_tree right_tree>>>>>>
+
+<@F leaf?
+    <tree>
+    <@case
+      <and <= <. tree left> None> <= <. tree right> None>>
+      True
+      False>>
+
+<@F flatten
+   <t>
+   <@case
+      <leaf? t>
+      <list <. t node>>
+      <
+        <@ r <list <. t node>>>
+        <@case
+          <= <. t left> None>
+          None
+          <@ r <extend <flatten <. t left>> r>>>
+        <@case
+          <= <. t right> None>
+          None
+          <@ r <extend r <flatten <. t right>> >>>
+        r >>>
+
+
+<@F print_tree
+    <t>
+    <@case
+      <leaf? t>
+      <stdout <. t node>>
+      <
+        <stdout <. t node>>
+        <@case
+          <= <. t left> None>
+          None
+          <print_tree <. t left>>>
+        <@case
+          <= <. t right> None>
+          None
+          <print_tree <. t right>>>
+      >>>
+
+
+<@ tree <make_tree <list 2 -2 0 14 5 4 7>>>
+!<stdout tree>
+<stdout <flatten tree>>
+

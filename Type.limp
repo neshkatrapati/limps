@@ -36,7 +36,7 @@
       <@F __anon__
           <*args>
           <<: el 0> *args>>>>
-<@F .
+<@F 
     <t p>
     <
       <@ el <[.] t <stringify p>>>

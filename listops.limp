@@ -55,12 +55,13 @@
 
 
 <@F list
-    <*args>
+    <*args> ! *args internally converted into a list representation
     <args>>
 
 <@F head
     <l>
     <: l 0>>
+
 
 <@F tail
     <l>
@@ -92,3 +93,29 @@
           None>
           <@ i <+ i 1>>>>
       found_at>>
+
+<@F in
+   <key a> 
+   <@case <= <find a key> -1> False True>>
+
+
+<@F empty?
+    <l>
+    <@case
+      <= <# l> 0>
+      True
+      False>>
+
+
+<@F map
+    <f l>
+    <@case
+      <= <# l> 1>
+      <f <head l>>
+      <+
+        <list <f <head l>>>
+        <map f <tail l>>>
+    >>
+
+
+

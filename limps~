@@ -1,6 +1,5 @@
-#usr/bin/env/python
+#/usr/bin/python
 #My Lisp Implementation
-
 
 import sys
 from stree import *
@@ -9,7 +8,6 @@ from parser  import Parser
 from helpers import *
 import shlex
 import cmd
-import os
 from copy import deepcopy
 from time import time
 
@@ -26,7 +24,6 @@ def evaluate(node, symbols):
         if node.type == "__meta__":
             return None
         return evaluate_expr([node.node], symbols)
-
     else:
         agg = []
         E = True
@@ -116,66 +113,35 @@ def evaluate(node, symbols):
 def evaluate_expr(expr, symbols):
     #print expr
     if len(expr) > 1:
-        #print expr
         if expr[0] in functions:
             if expr[0] in ["@", "@!"]:
                 t = functions[expr[0]](expr[1:], symbols)
             else:
-                #print expr[]
                 t = functions[expr[0]](expr[1:])
-            if (type(t) == STREE and t.type == "__quote__") or type(t) == Method:
-                if type(t) == Method:
-                    return evaluate(t.body, symbols)
+            if type(t) == STREE and t.type == "__quote__":
                 return t
             else:
                 return str(t)
         # else:
         #     return expr[-1]
     if expr[0] != None:
-        #print expr
-        if expr[0] in ['#symbols']:
-            functions[expr[0]](None, symbols)
-            return None
-        
         if type(expr[0]) != list and type(expr[0]) != STREE:
-            #print "E", expr[0]
             if expr[0] in symbols and (is_method(expr[0], symbols) == False):
-
                 return symbols[expr[0]]
 
             elif isinstance(expr[0], Method) and len(expr) == 1:
-                #print "I am in "
-                #return evaluate(expr[0].body, symbols)
                 # if expr[0].name == None:
                 #     return evaluate(expr, symbols)
                 return expr[0]
 
             elif is_method(expr[0], symbols):
-                #print expr
                 nsymbols = deepcopy(symbols)
                 method = symbols[expr[0]]
                 body = method.body
                 args = method.args
-                #print expr, args
+                #print expr
                 for index, arg in enumerate(args):
-                    if arg.startswith('*'):
-                        #print "Arg", arg
-                        if type(expr[index + 1]) == str and expr[index + 1].startswith("*"):
-                           nsymbols[arg[1:]] = symbols[expr[index + 1][1:]]
-                        else:
-                            l = expr[(index + 1):]
-                            nsymbols[arg[1:]] = make_list(l)
-                        break
-                    if (index + 1) < len(expr):
-                        if type(expr[index + 1]) == str and expr[index + 1].startswith("*"):
-                            p = symbols[expr[index + 1][1:]].children[0].children
-                            #print p
-                            for j, t in p.items():
-                                nsymbols[args[index + j]] = t
-                            break
-
-                        nsymbols[arg] = expr[index + 1]
-
+                    nsymbols[arg] = expr[index + 1]
                 if method._parcount != None:
                     for k, v in method._parcount.items():
                         if k not in nsymbols:
@@ -198,16 +164,6 @@ def evaluate_expr(expr, symbols):
             return expr[-1]
 
 
-def load_file(args):
-    #print args
-    for module_name in args:
-        file_name = module_name + ".limp"
-        with open(file_name) as f:
-                root = parse_line(f.read())
-                res = evaluate(root, symbols)
-
-
-
 symbols = {}
 methods = {}
 functions = {'+':operator('+'),
@@ -220,19 +176,15 @@ functions = {'+':operator('+'),
              '!=':operator('!='),
              'gt':operator('>'),
              'lt':operator('<'),
-             '#symbols':psym(),
+             '@!':psym(),
              "@":defsym(),
              "@F":deffun(methods),
              ":":qaccess(symbols, evaluate),
              ":/":qslice(symbols, evaluate),
              "#":qlen(symbols, evaluate),
-             'type':get_type(symbols),
-             "@~":unpack(symbols, evaluate),
+             "unpack":unpack(symbols, evaluate_expr),
              "stdin":stdin,
              "stdout": stdout,
-             "import": load_file,
-             "stringify":stringify,
-             "is_method":is_method,
              }
 string_except = {':', '#'}
 
@@ -257,49 +209,16 @@ def set_rem(rem, symbols):
 
 
 class Interpreter(cmd.Cmd):
-    def __init__(self, hist_file = '.limps.hist'):
+    def __init__(self):
         cmd.Cmd.__init__(self)
         self.prompt = "limps> "
         self.intro = "Welcome to limps, My Lisp Implementation on Python"
-        self.hist_file = hist_file
-        self._hist = self.read_hist()
-
-    def read_hist(self):
-        l = []
-        if os.path.exists(self.hist_file):
-            with open(self.hist_file) as f:
-
-                for index, line in enumerate(f):
-                    l.append(line.strip())
-        return l
-    def write_hist(self):
-        with open(self.hist_file, "w") as f:
-            lines = "\n".join(self._hist)
-            f.write(lines)
-
-    def do_hist(self, args):
-        for h in self._hist:
-            print h
-
     def do_exit(self, args):
        """Exits from the console"""
-       self.write_hist()
        return -1
-
     def do_EOF(self, args):
        """Exit on system end of file character"""
        return self.do_exit(args)
-
-
-    def precmd(self, line):
-        """ This method is called after the line has been input but before
-            it has been interpreted. If you want to modifdy the input line
-            before execution (for example, variable substitution) do it here.
-        """
-        self._hist += [ line.strip() ]
-        return line
-
-
 
     def postloop(self):
        """Take care of any unfinished business.
@@ -328,7 +247,6 @@ class Interpreter(cmd.Cmd):
        """Called on an input line when the command prefix is not recognized.
           In that case we execute the line as Python code.
        """
-
        root = parse_line(line)
        #root.print_tree()
        res = evaluate(root, symbols)
@@ -339,29 +257,13 @@ class Interpreter(cmd.Cmd):
 if __name__ == "__main__":
 
     if len(sys.argv) > 1:
-        #file_name = sys.argv[1]
-        if sys.argv[1] == '-P':
-            file_name = sys.argv[2]
-            with open(file_name) as f:
-                root = parse_line(f.read())
+        file_name = sys.argv[2]
+        with open(file_name) as f:
+            root = parse_line(f.read())
+            if sys.argv[1] == "-F":
+                res = evaluate(root, symbols)
+                print res
+            elif sys.argv[1] == "-P":
                 root.print_tree()
-
-        elif sys.argv[1] == '-T':
-            s = time()
-            file_name = sys.argv[2]
-            with open(file_name) as f:
-                root = parse_line(f.read())
-                res = evaluate(root, symbols)
-                print res
-            e = time()
-            print e - s, "Seconds"
-
-        elif os.path.isfile(sys.argv[1]):
-            file_name = sys.argv[1]
-            with open(file_name) as f:
-                root = parse_line(f.read())
-                res = evaluate(root, symbols)
-                print res
-
     else:
         Interpreter().cmdloop()
