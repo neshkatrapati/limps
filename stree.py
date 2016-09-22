@@ -64,14 +64,40 @@ class STREE(object):
             return self.flatten()
 
 class Method(object):
-    def __init__(self, name, body, args = []):
+    def __init__(self,
+                 name,
+                 body,
+                 args = [],
+                 module_name = None,
+                 docstring = None):
         self.name = name
         self.body = body
         self.args = args
+        self.docstring = docstring
+        self.module = module_name
         self._parcount = None
 
     def __str__(self):
         if self.name != None:
-            return "Method : " + str(self.name)
+            return str(self.name) + "<" + " ".join(self.args) +  "> "+ " at " + self.module + " " + self.docstring 
         else:
             return "Anonymous Method"
+
+
+class PyMethod(Method):
+    def __init__(self,
+                 name,
+                 pymethod,
+                 args = [],
+                 module_name = "",
+                 docstring = ""):
+        super(self.__class__, self).__init__(name,
+                                             None,
+                                             args,
+                                             module_name,
+                                             docstring)
+        
+        self.pymethod = pymethod
+
+        
+        

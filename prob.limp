@@ -1,0 +1,45 @@
+
+<@F count
+    <l e>
+    <@case
+        <= <# l> 1>
+        <@case
+            <= e <head l>>
+            1
+            0>
+        <+
+            <count <head l> e>
+            <count <tail l> e>
+        >>>
+
+
+<@F P
+    <x E>
+    </ <count E x> <# E>>>
+
+
+<@F Norm
+    <E>
+    <   <@ i 0>
+        <@ l `<>>
+        <@ N <sum_nums E>>
+        <@while
+            <lt i <# E>>
+            <<@ l <+ l </ <: E i> N> >>
+            <@ i <+ i 1>>>>
+            
+        l>>
+    
+
+<@F P-Norm
+    <E>
+    <   <@ i 0>
+        <@ l `<>>
+        <@while
+            <lt i <# E>>
+            <<@ l <+ l <P <: E i> E>>>
+            <@ i <+ i 1>>>>
+            
+        l>>
+            
+    

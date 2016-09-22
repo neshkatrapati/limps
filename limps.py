@@ -118,7 +118,7 @@ def evaluate_expr(expr, symbols):
     if len(expr) > 1:
         #print expr
         if expr[0] in functions:
-            if expr[0] in ["@", "@!"]:
+            if expr[0] in ["@", "@!", "?"]:
                 t = functions[expr[0]](expr[1:], symbols)
             else:
                 #print expr[]
@@ -132,10 +132,11 @@ def evaluate_expr(expr, symbols):
         # else:
         #     return expr[-1]
     if expr[0] != None:
-        #print expr
+        #print expr, is_method(expr[0], symbols)
         if expr[0] in ['#symbols']:
             functions[expr[0]](None, symbols)
             return None
+        
         
         if type(expr[0]) != list and type(expr[0]) != STREE:
             #print "E", expr[0]
@@ -198,21 +199,32 @@ def evaluate_expr(expr, symbols):
             return expr[-1]
 
 
+
+symbols = {'__file__' : "*SHELL*"}
+methods = {}
+
+
 def load_file(args):
     #print args
+    old_f = symbols['__file__']
     for module_name in args:
         file_name = module_name + ".limp"
-        with open(file_name) as f:
+        symbols['__file__'] = module_name
+        with open(file_name) as f:            
                 root = parse_line(f.read())
+                #new_symbols = deepcopy(symbols)
+                #new_symbols['__file__'] = module_name
                 res = evaluate(root, symbols)
+                #symbols = new_symbols
+    symbols['__file__'] = old_f
+    
 
 
 
-symbols = {}
-methods = {}
 functions = {'+':operator('+'),
              '-':operator('-'),
              '/':operator('/'),
+             '/S':operator('/S'),
              '%':operator('%'),
              '*':operator('*'),
              '**':operator('**'),
@@ -220,7 +232,7 @@ functions = {'+':operator('+'),
              '!=':operator('!='),
              'gt':operator('>'),
              'lt':operator('<'),
-             '#symbols':psym(),
+             '#symbols':psym(),             
              "@":defsym(),
              "@F":deffun(methods),
              ":":qaccess(symbols, evaluate),
@@ -233,6 +245,8 @@ functions = {'+':operator('+'),
              "import": load_file,
              "stringify":stringify,
              "is_method":is_method,
+             "pycall" : set_pycall(symbols, evaluate)                                   
+             #"open":pycall(open),
              }
 string_except = {':', '#'}
 
@@ -244,15 +258,19 @@ def parse_line(line):
 
 def set_rem(rem, symbols):
 
+    docstring = ""
     if len(rem) <= 2:
         args = []
         #fbody = rem[1]
+    if len(rem) > 3:
+        docstring = rem[1].node
+        args = [rem[2].children[r].node for r in rem[2].children]
     else:
         #args = shlex.split(rem[1][1:-1])
         args = [rem[1].children[r].node for r in rem[1].children]
 
     #methods[rem[0].node] = [args, rem[-1]]
-    symbols[rem[0].node] = Method(rem[0].node, rem[-1], args)
+    symbols[rem[0].node] = Method(rem[0].node, rem[-1], args, symbols["__file__"], docstring=docstring)
     return symbols[rem[0].node]
 
 
@@ -312,6 +330,9 @@ class Interpreter(cmd.Cmd):
        root = parse_line(line)
        root.print_tree()
 
+    def do_code(self, file_name):
+        os.system("xterm -e \"nano '"+file_name+".limp'\"")
+
     def do_load(self, line):
         with open(line) as f:
             root = parse_line(f.read())
@@ -342,6 +363,7 @@ if __name__ == "__main__":
         #file_name = sys.argv[1]
         if sys.argv[1] == '-P':
             file_name = sys.argv[2]
+            symbols["__file__"] = file_name
             with open(file_name) as f:
                 root = parse_line(f.read())
                 root.print_tree()

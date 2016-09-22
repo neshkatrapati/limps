@@ -69,6 +69,7 @@
 
 
 <@F set
+    #"Set value at a particular index for a list l"    
     <l index val>
     <<@ nl `<>>
      <@ i 0>
@@ -117,5 +118,25 @@
         <map f <tail l>>>
     >>
 
+<@F listify
+    <f>
+    <@F __anon__listify_
+        <*args>
+        <@case
+            <= <# args> 1>
+            <list <f <head args>>>
+            < <@ t <tail args>>
+              <stdout t>
+              <extend
+                <__anon__listify_ <head args>>
+                <__anon__listify_ *t>>>>>>
+                
 
 
+
+<@F sliding_range #"Compute a list of ranges from a to a+k to n to n+k" 
+    <a n k> 
+    <@case 
+      <= a n> 
+      <list <range n <+ n k>>>
+      <extend <list <range a <+ a k>>> <sliding_range <+ a 1> n>>>>

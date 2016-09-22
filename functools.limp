@@ -1,0 +1,18 @@
+<@F chain_1
+    <x y>
+    <@F __anon__
+        <p>
+        <y <x p>>>>
+        
+<@F chain_2
+    <x y>
+    <@F __anon__
+        <p q>
+        <y <x p q>>>>
+
+
+<@F chain
+    <x y>
+    <@F __anon__
+       <*args>
+       <y <x *args>>>>

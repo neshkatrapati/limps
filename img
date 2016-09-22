@@ -1,7 +1,9 @@
 graph {
 	"-__root__"
 	"0.-child_1"
-	"0.0.-#symbols"
-		"0.-child_1" -- "0.0.-#symbols"
+	"0.0.-import"
+		"0.-child_1" -- "0.0.-import"
+	"0.1.-assoc"
+		"0.-child_1" -- "0.1.-assoc"
 		"-__root__" -- "0.-child_1"
 }

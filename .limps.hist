@@ -434,3 +434,31 @@ EOF
 <@! sq>
 <@! 1 2 3>
 EOF
+code assoc
+<import listops>
+<#symbols>
+<@ x `<1 2>>
+<+ x x>
+<extend x x>
+<+ x 1>
+EOF
+<import logicops>
+<nand True False>
+<nand True True>
+<nor False False>
+<nor False True>
+<nor True True>
+code logicops
+<#symbols>
+EOF
+</ 1 2>
+</ 1 2.5>
+EOF
+<= <stringify Hello> "Hello">
+<case
+<case True True FalsE>
+<case True True False>
+<case <case <= 1  1>  True False> False True>
+<@ i 0>
+<@while <lt i 10> <<stdout i> <@ i <+ i 1>>>>
+EOF

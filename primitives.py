@@ -7,7 +7,12 @@ def operator(op):
         # print arglist
         if type(arglist[0]) != STREE and type(arglist[1]) != STREE:
             #print arglist
-            return eval(op.join(arglist))
+            real_op = op
+            if real_op == '/':
+                arglist = [str(float(arg)) for arg in arglist]
+            if real_op == "/S":
+                real_op = '/'
+            return eval(real_op.join(arglist))
         else:
             #print arglist
             if type(arglist[0]) == STREE:
@@ -72,7 +77,7 @@ def get_type(symbols):
 
 def defsym():
     def _eval(arglist, symbols):
-
+        
         symbols[arglist[0]] = arglist[1]
         return str(arglist[0]) + "=" + str(arglist[1])
     return _eval
@@ -81,8 +86,10 @@ def psym():
 
     def _eval(arglist, symbols):
 
-        import pprint
-        pprint.pprint(symbols)
+        for symbol in symbols:
+            print symbol, "-->" ,symbols[symbol]
+
+        
     return _eval
 
 def deffun(methods):
@@ -157,6 +164,27 @@ def qslice(symbols, evaluate):
         else:
             return arglist[0][f:t]
     return _eval
+
+
+def set_pycall(symbols, evaluate):
+    def __set_pycall(arglist):
+        #symbols[arglist[0]] = pycall(arglist[0])
+        
+        docstring = ""
+        if len(arglist) > 2:
+            docstring = arglist[2]
+            
+        symbols[arglist[1]] = PyMethod('__anon__',
+                        arglist[0],
+                        module_name = symbols["__file__"],
+                        docstring = docstring)
+    return __set_pycall
+
+def pycall(pyfunc):
+    def __pycall(arglist):
+        arglist[0] = arglist[0].strip("\'\"")
+        return pyfunc(arglist[0])
+    return __pycall
 
 def qlen(symbols, evaluate):
     def _eval(arglist):

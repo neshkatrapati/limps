@@ -7,9 +7,9 @@
     <@case
         <= <# l> 1>
         <Tree <list <: l 0> None None>>
-        < <@ left_tree <:/ l 0 <- </ <# l> 2> 1>>>
-          <@ right_tree <:/ l <+ </ <# l> 2> 1> <# l>>>
-          <@ center <: l </ <# l> 2>>>
+        < <@ left_tree <:/ l 0 <- </S <# l> 2> 1>>>
+          <@ right_tree <:/ l <+ </S <# l> 2> 1> <# l>>>
+          <@ center <: l </S <# l> 2>>>
           <Tree <list center <make_tree left_tree> <make_tree right_tree>>>>>>
 
 <@F leaf?
@@ -56,6 +56,6 @@
 
 
 <@ tree <make_tree <list 2 -2 0 14 5 4 7>>>
-!<stdout tree>
+<stdout tree>
 <stdout <flatten tree>>
 

@@ -12,6 +12,7 @@
     <= "atomic" <type x>>>
 
 <@F and
+   #"Given two truth values p,q ; return p & q"
    <p q>
    <@case
       <= p q>

@@ -1,0 +1,16 @@
+<import functools>
+
+<@F identity <x> <x>> 
+<@F not <x>   <@case <x> False True>>
+<@F and <x y> <@case <= x y> <@case <x> True False> False>>
+<@F or  <x y> <@case <x> True y>>
+
+<@ nand <chain_2 @and @not>>
+<@ nor  <chain_2 @or @not>>
+
+
+<@F and_curry
+    <x>
+    <@F __anon__
+        <y>
+        <and x y>>>

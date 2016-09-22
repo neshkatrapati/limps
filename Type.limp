@@ -1,5 +1,5 @@
 <import assoc>
-<import basefuncs>
+!<import basefuncs>
 ! Docs
 ! Type :: <@ t <Type `<a b> <0 1>>> : Creates a type
 ! <@ t_object <t>> : Instantiates a type
@@ -10,7 +10,7 @@
 
 <@F Type
     <properties>
-    < <@ props <stringify_ks properties>>
+    <<@ props <stringify_ks properties>>
       <@F __anon__
         <defaults>
         <assoc_from_kv props defaults>>
@@ -36,7 +36,7 @@
       <@F __anon__
           <*args>
           <<: el 0> *args>>>>
-<@F 
+<@F .
     <t p>
     <
       <@ el <[.] t <stringify p>>>
